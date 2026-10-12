@@ -11,6 +11,7 @@ import com.example.stock.service.exception.StockProductNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 
 @Service
@@ -30,10 +31,17 @@ public class StockService implements IStockService {
     public ArrayList<GetStockProductDto> getStockProducts(long storeId) {
         return null;
     }
-
     @Override
-    public GetStockProductDto getStockProduct(String productNo) {
-        return null;
+    public GetStockProductDto getStockProduct(long stockProductId) {
+        StockProduct stockProduct=stockProductRepository.findById(stockProductId).orElseThrow(()->new StockProductNotFoundException("product not found"));
+        return GetStockProductDto.builder()
+                .stockProductId(stockProduct.getStockProductId())
+                .productNo(stockProduct.getProductNo())
+                .brand(stockProduct.getBrand())
+                .quantity(stockProduct.getQuantity())
+                .unitPrice(stockProduct.getUnitPrice().multiply(BigDecimal.valueOf(stockProduct.getDiscountPercentage())))
+                .isAvailable(stockProduct.isAvailable())
+                .build();
     }
 
     @Override

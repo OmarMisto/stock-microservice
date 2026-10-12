@@ -13,7 +13,6 @@ import java.math.BigDecimal;
 @ToString
 public class GetStockProductDto {
     private long stockProductId;
-    private long productId;
     private String productNo;
     private String brand;
     private int quantity;

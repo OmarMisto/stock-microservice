@@ -18,6 +18,6 @@ public class StockProductDto {
     private String brand;
     private int quantity;
     private BigDecimal unitPrice;
-    private int discountPercentage;
+    private long discountPercentage;
     private boolean isAvailable;
 }
