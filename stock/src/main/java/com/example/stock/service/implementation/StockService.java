@@ -5,9 +5,12 @@ import com.example.stock.model.StockProduct;
 import com.example.stock.model.dto.*;
 import com.example.stock.repository.StockProductRepository;
 import com.example.stock.repository.StockRepository;
+import com.example.stock.service.IStockProductsService;
 import com.example.stock.service.IStockService;
 import com.example.stock.service.exception.StockNotFoundException;
+import com.example.stock.service.exception.StockOutOfRequiredQuantityException;
 import com.example.stock.service.exception.StockProductNotFoundException;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -15,13 +18,11 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 
 @Service
+@RequiredArgsConstructor
 public class StockService implements IStockService {
     private final StockRepository stockRepository;
     private final StockProductRepository stockProductRepository;
-    public StockService(StockRepository stockRepository,StockProductRepository stockProductRepository){
-        this.stockRepository=stockRepository;
-        this.stockProductRepository=stockProductRepository;
-    }
+
     @Override
     public StockDto createStockService(long storeId) {
         Stock stock= stockRepository.save(Stock.builder().stockId(storeId).build());
@@ -29,23 +30,6 @@ public class StockService implements IStockService {
     }
     @Override
     public ArrayList<GetStockProductDto> getStockProducts(long storeId) {
-        return null;
-    }
-    @Override
-    public GetStockProductDto getStockProduct(long stockProductId) {
-        StockProduct stockProduct=stockProductRepository.findById(stockProductId).orElseThrow(()->new StockProductNotFoundException("product not found"));
-        return GetStockProductDto.builder()
-                .stockProductId(stockProduct.getStockProductId())
-                .productNo(stockProduct.getProductNo())
-                .brand(stockProduct.getBrand())
-                .quantity(stockProduct.getQuantity())
-                .unitPrice(stockProduct.getUnitPrice().multiply(BigDecimal.valueOf(stockProduct.getDiscountPercentage())))
-                .isAvailable(stockProduct.isAvailable())
-                .build();
-    }
-
-    @Override
-    public DeleteStockDto doDeleteStockService(long storeId) {
         return null;
     }
 
@@ -77,7 +61,6 @@ public class StockService implements IStockService {
                .isAvailable(stockProduct.isAvailable())
                .build();
     }
-
     @Override
     @Transactional
     public void removeStockProduct(long storeId,long productId) {
@@ -85,10 +68,5 @@ public class StockService implements IStockService {
 //        stock.getStockProducts().removeIf(stockProduct -> stockProduct.getProductId()==productId);
 //        stockRepository.save(stock);
     }
-    @Override
-    public StockProductDto updateStockProduct(UpdateStockProductDto updateStockProductDto) {
-        StockProduct stockProduct= stockProductRepository.findById(updateStockProductDto.getStockProductId()).orElseThrow(()->new StockProductNotFoundException("stock product not found"));
 
-        return null;
-    }
 }

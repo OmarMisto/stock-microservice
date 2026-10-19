@@ -9,9 +9,9 @@ import java.time.LocalDateTime;
 @Getter
 @Setter
 @ToString
-public class DeleteStockDto {
-    private long storeId;
-    private long stockId;
-    private boolean isDeleted;
-    private LocalDateTime deleteDate;
+public class StockReservedFailedEvent {
+    private long orderId;
+    private String event;
+    private LocalDateTime date;
+    private String message;
 }

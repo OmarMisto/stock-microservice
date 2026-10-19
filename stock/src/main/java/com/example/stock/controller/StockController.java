@@ -1,7 +1,6 @@
 package com.example.stock.controller;
 
 import com.example.stock.model.dto.AddStockProductDto;
-import com.example.stock.model.dto.GetStockProductDto;
 import com.example.stock.model.dto.UpdateStockProductDto;
 import com.example.stock.service.IStockService;
 import lombok.RequiredArgsConstructor;
@@ -26,14 +25,12 @@ public class StockController {
     public ResponseEntity<?>getStockProductsController(@PathVariable(name = "storeId")long storeId){
         return ResponseEntity.ok("");
     }
-    @GetMapping("get/{stockProductId}")
-    public ResponseEntity<GetStockProductDto> getStockProductByIdController(@PathVariable("stockProductId")long stockProductId){
-        return ResponseEntity.ok().body(iStockService.getStockProduct(stockProductId));
-    }
+
     @PostMapping("/add/product")
     public ResponseEntity<?>addStockProductController(@RequestBody AddStockProductDto addStockProductDto){
         return ResponseEntity.status(HttpStatus.CREATED).body(iStockService.addStockProductService(addStockProductDto));
     }
+
     @DeleteMapping("/remove/product/{stockProductId}")
     public ResponseEntity<?>removeStockProductController(@PathVariable long productId){
         return ResponseEntity.ok("");

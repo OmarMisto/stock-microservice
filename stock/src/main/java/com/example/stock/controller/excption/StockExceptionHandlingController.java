@@ -2,6 +2,7 @@ package com.example.stock.controller.excption;
 
 import com.example.stock.model.dto.ErrorMessageResponse;
 import com.example.stock.service.exception.StockNotFoundException;
+import com.example.stock.service.exception.StockOutOfRequiredQuantityException;
 import com.example.stock.service.exception.StockProductNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -34,6 +35,17 @@ public class StockExceptionHandlingController {
                 .build()
 
 
+        );
+    }
+    @ExceptionHandler(StockNotFoundException.class)
+    public ResponseEntity<?> stockOutOfRequiredQuantityExceptionHandlerController(StockOutOfRequiredQuantityException e){
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ErrorMessageResponse
+                .builder()
+                .error("Stock out of required quantity")
+                .status(HttpStatus.BAD_REQUEST.value())
+                .message(e.getMessage())
+                .date(LocalDateTime.now())
+                .build()
         );
     }
 }
